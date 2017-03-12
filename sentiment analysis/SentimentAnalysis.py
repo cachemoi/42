@@ -1,11 +1,10 @@
 import http.client, urllib.request, urllib.parse, urllib.error, base64
-import json, csv, datetime, math
+import json, csv
 
 headers = {
   # Request headers
   'Content-Type': 'application/json',
   'Ocp-Apim-Subscription-Key': 'f6e3b66e22214112ace5bff3b6a22ad2'
-  # 'Ocp-Apim-Subscription-Key': 'ee2b64ff7dc8401c98d54b2fc90b5455'
 }
 
 params = urllib.parse.urlencode({
@@ -14,22 +13,21 @@ params = urllib.parse.urlencode({
 documents = []
 times = []
 
-def sentiment(inputcsvFileName, outputcsvfilename):
-  with open(inputcsvFileName, newline='') as csvfile:
+def sentiment(csvFileName):
+  with open(csvFileName, newline='') as csvfile:
     r = csv.DictReader(csvfile)
     i = 0
     for row in r:
       documents.append({ 'id': i, 'text': row['content'] })
-      t = datetime.datetime.strptime(row['time'], '%Y-%m-%d %H:%M:%S').timestamp()
-      times.append(math.floor(t/86400)*86400)
+      times.append(row['time'])
       i += 1
 
   js = []
   n = 0
   while n < len(documents):
     print(n)
-    body = json.dumps({'documents': documents[n:n+500]})
-    n += 500
+    body = json.dumps({'documents': documents[n:n+1000]})
+    n += 1000
     j = None
     try:
       conn = http.client.HTTPSConnection('westus.api.cognitive.microsoft.com')
@@ -42,7 +40,7 @@ def sentiment(inputcsvFileName, outputcsvfilename):
     except Exception as e:
       print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
-  with open(outputcsvfilename, 'w') as csvfile:
+  with open('output.csv', 'w') as csvfile:
     fieldnames = ['id', 'timestamp', 'score']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     writer.writeheader()
