@@ -1,7 +1,7 @@
 import tweepy
 from tweepy import OAuthHandler
 import csv
-
+import time
 
 #setting up the crawler
 
@@ -13,10 +13,10 @@ access_secret = '4mWOGr2WpmBfXZMwcdEIKcB6rIB6gQgMVynO3knuGzO3q'
 auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
 
-api = tweepy.API(auth)
+api = tweepy.API(auth, wait_on_rate_limit= True, wait_on_rate_limit_notify=True)
 
 
-def get_tweets(username, tweetNumber):
+def get_tweets(username, tweetNumber, date):
     """
 
     :param username:
@@ -26,6 +26,7 @@ def get_tweets(username, tweetNumber):
     :return:
     saves csv of tweets in the current directory in a tweets file
     """
+
     tweets = api.user_timeline(screen_name=username, count=tweetNumber)
 
 
@@ -48,4 +49,7 @@ def get_tweets(username, tweetNumber):
 
 if __name__ == '__main__':
 
-    get_tweets('realDonaldTrump', 2)
+    for i in range(0,2):
+        get_tweets('realDonaldTrump', 2)
+        time.sleep(0.1)  # delays for 5 seconds
+        get_tweets('realDonaldTrump', 2)
