@@ -32,8 +32,8 @@ try:
   response = conn.getresponse()
   data = response.read()
   conn.close()
-  print(body)
-  print(data)
+  # print(body)
+  # print(data)
   j = json.loads(data.decode("utf-8"))
 except Exception as e:
   print("[Errno {0}] {1}".format(e.errno, e.strerror))
