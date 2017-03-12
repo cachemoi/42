@@ -226,7 +226,7 @@ def getTweets(username, tweetNumber):
     # write to a panda dataframe from the array of tweets
     data = pd.DataFrame(formattedTweets)
 
-    data.to_csv('/home/cachemoi/Desktop/Programs/Python/42/tweets/TrumpTweets.csv')
+    data.to_csv('/home/cachemoi/Desktop/Programs/Python/42/tweets/'+ username + '_Tweets.csv')
 
     return data
 
@@ -234,5 +234,17 @@ def getTweets(username, tweetNumber):
 if __name__ == '__main__':
 
     #example using Trump
-    tweets = getTweets('realDonaldTrump', 30000)
+    #tweets = getTweets('realDonaldTrump', 30000)
+    #example using Taylor Swift
+    #tweets = getTweets('taylorswift13', 4000)
+    # example using swiftonsecurity
+    #tweets = getTweets('SwiftOnSecurity', 20000)
+    # example using Wikileaks
+    #tweets = getTweets('wikileaks', 20000)
+    # example using Edward snowden
+    #tweets = getTweets('FreedomofPress', 20000)
+    # example using Elon Musk
+    tweets = getTweets('elonmusk', 20000)
+
+
     print(tweets)
