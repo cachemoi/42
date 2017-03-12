@@ -5,11 +5,9 @@ from multiprocessing.pool import Pool
 import pandas as pd
 
 import requests
-from fake_useragent import UserAgent
 from twitterscraper.tweet import Tweet
 
-ua = UserAgent()
-HEADERS_LIST = [ua.chrome, ua.google, ua['google chrome'], ua.firefox, ua.ff]
+HEADERS_LIST = ['Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.60 Safari/537.17', 'Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17', 'Mozilla/5.0 (Windows NT 5.1; rv:21.0) Gecko/20130331 Firefox/21.0', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:25.0) Gecko/20100101 Firefox/25.0']
 
 INIT_URL = "https://twitter.com/search?f=tweets&vertical=default&q={q}"
 RELOAD_URL = "https://twitter.com/i/search/timeline?f=tweets&vertical=" \
@@ -211,7 +209,7 @@ def getTweets(username, tweetNumber):
 
     query = 'from%3A'+ username + '&src=typd'
 
-    tweets = query_tweets(query, tweetNumber)
+    tweets = query_tweets(query,tweetNumber)
 
     # create array of tweet information: username, tweet id, date/time, text
     formattedTweets = []
@@ -226,25 +224,11 @@ def getTweets(username, tweetNumber):
     # write to a panda dataframe from the array of tweets
     data = pd.DataFrame(formattedTweets)
 
-    data.to_csv('/home/cachemoi/Desktop/Programs/Python/42/tweets/'+ username + '_Tweets.csv')
-
     return data
 
 
 if __name__ == '__main__':
 
     #example using Trump
-    #tweets = getTweets('realDonaldTrump', 30000)
-    #example using Taylor Swift
-    #tweets = getTweets('taylorswift13', 4000)
-    # example using swiftonsecurity
-    #tweets = getTweets('SwiftOnSecurity', 20000)
-    # example using Wikileaks
-    #tweets = getTweets('wikileaks', 20000)
-    # example using Edward snowden
-    #tweets = getTweets('FreedomofPress', 20000)
-    # example using Elon Musk
-    tweets = getTweets('elonmusk', 20000)
-
-
+    tweets = getTweets('realDonaldTrump', 10)
     print(tweets)
