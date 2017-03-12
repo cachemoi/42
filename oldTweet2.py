@@ -1,8 +1,6 @@
 import csv
-import json
 import logging
 import random
-import sys
 from datetime import timedelta, date
 from multiprocessing.pool import Pool
 
@@ -218,13 +216,10 @@ def getTweets(username, tweetNumber):
 
     query = 'from%3A'+ username + '&src=typd'
 
-    tweets = query_tweets(query,tweetNumber)
-    print(tweets[0].user)
+    tweets = query_tweets(query, tweetNumber)
 
     # create array of tweet information: username, tweet id, date/time, text
     csvTweets = [[tweet.user, tweet.id, tweet.timestamp, tweet.text] for tweet in tweets]
-
-    print(csvTweets)
 
     # create header for the csv
     csvHeader = ['user', 'tweetID', 'date', 'content']
@@ -239,4 +234,5 @@ def getTweets(username, tweetNumber):
 
 if __name__ == '__main__':
 
-    getTweets('realDonaldTrump', 1000)
+    #example using Trump
+    getTweets('realDonaldTrump', 10000)

@@ -1,15 +1,12 @@
-import csv
-import json
 import logging
 import random
-import sys
 from datetime import timedelta, date
 from multiprocessing.pool import Pool
+import pandas as pd
 
 import requests
 from fake_useragent import UserAgent
 from twitterscraper.tweet import Tweet
-
 
 ua = UserAgent()
 HEADERS_LIST = [ua.chrome, ua.google, ua['google chrome'], ua.firefox, ua.ff]
@@ -79,7 +76,7 @@ def query_tweets_once(query, limit=None, num_tweets=0):
                   ``limit`` number of items.
     """
     logging.info("Querying {}".format(query))
-    #query = query.replace(' ', '%20').replace("#", "%23").replace(":", "%3A")
+    query = query.replace(' ', '%20').replace("#", "%23").replace(":", "%3A")
     pos = None
     tweets = []
     try:
@@ -212,26 +209,30 @@ def getTweets(username, tweetNumber):
 
     #format query
 
-    query = 'l=&q=from%3'+ username + '&src=typd'
+    query = 'from%3A'+ username + '&src=typd'
 
-    tweets = query_tweets(query,10)
+    tweets = query_tweets(query,tweetNumber)
 
+    print("downloaded")
     # create array of tweet information: username, tweet id, date/time, text
-    csvTweets = [[tweet.user, tweet.id, tweet.timestamp, tweet.text] for tweet in tweets]
+    formattedTweets = []
 
-    print(csvTweets)
+    for tweet in tweets:
+        formattedTweets.append({'user': tweet.user,
+                          'tweetID': tweet.id,
+                          'time': tweet.timestamp,
+                          'content' : tweet.text
+                          })
 
-    # create header for the csv
-    csvHeader = ['user', 'tweetID', 'date', 'content']
+    # write to a panda dataframe from the array of tweets
+    data = pd.DataFrame(formattedTweets)
 
-    # write to a new csv file from the array of tweets
+    data.to_csv('/home/cachemoi/Desktop/Programs/Python/42/tweets/TrumpTweets.csv', sep=',')
 
-    with open('tweets/' + "{0}_tweets.csv".format(username), 'w+', newline='') as file:
-        writer = csv.writer(file, delimiter=',')
+    return data
 
-        writer.writerows([csvHeader])
-        writer.writerows(csvTweets)
 
 if __name__ == '__main__':
 
-    getTweets('realDonaldTrump', 2)
+    #example using Trump
+    tweets = getTweets('realDonaldTrump', 10)
