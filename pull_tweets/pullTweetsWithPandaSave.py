@@ -226,7 +226,7 @@ def getTweets(username, tweetNumber):
     # write to a panda dataframe from the array of tweets
     data = pd.DataFrame(formattedTweets)
 
-    data.to_csv('/home/cachemoi/Desktop/Programs/Python/42/tweets/'+ username + '_Tweets.csv')
+    data.to_csv('/home/cachemoi/Desktop/Programs/Python/42/pull_tweets/tweets'+ username + '_Tweets.csv')
 
     return data
 

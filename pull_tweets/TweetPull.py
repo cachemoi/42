@@ -5,10 +5,10 @@ import time
 
 #setting up the crawler
 
-consumer_key = 'P571oNtviMC0bWNlQMBJKBHFG'
-consumer_secret = 'Vjf9DAfHUOIh6UvA6kGf7rGtzk5DpWqmR88YINNQsX13Y4X0nb'
-access_token = '252783837-ohazajCwKzGg5THuKYmRRjLBPglNJyQWGGb8ERIp'
-access_secret = '4mWOGr2WpmBfXZMwcdEIKcB6rIB6gQgMVynO3knuGzO3q'
+consumer_key = ''
+consumer_secret = ''
+access_token = ''
+access_secret = ''
 
 auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
